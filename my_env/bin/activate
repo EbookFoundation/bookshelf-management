@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/home/domes55/bookshelf-management/my_env"
+VIRTUAL_ENV="/mnt/c/users/damon/desktop/bookshelf-management/my_env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
