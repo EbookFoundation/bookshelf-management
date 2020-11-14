@@ -1,14 +1,15 @@
+
 from django.db import models
 from django.utils import timezone as tz
 import sys
 
+'''
 def smart_truncate(content, length=100, suffix='...'):
     if len(content) <= length:
         return content
     else:
         return ' '.join(content[:length+1].split(' ')[0:-1]) + suffix
-    
-    
+'''
 
 class Author(models.Model):
     name = models.CharField(max_length=255, default="", null=True, blank=True)
@@ -16,25 +17,16 @@ class Author(models.Model):
     birth_year = models.IntegerField(null=True)
     death_year = models.IntegerField(null=True)
     wikipedia_url = models.URLField(max_length=500)
+    num_downloads = models.IntegerField(default=0)
+    release_date = models.IntegerField(null=True)
 
-    '''
-    template for bookshelf
 
-    class Bookshelf(Base):
-    __tablename__ = 'bookshelves'
-    __table_args__ = (
-        CheckConstraint("bookshelf <> ''::text"),
-    )
+class Bookshelf(models.Model):
+    bookshelf_id = models.IntegerField()
+    bookshelf_name = models.CharField(max_length=255, null=False)
+    release_date = models.IntegerField(null=True)
+    num_downloads = models.IntegerField(default=0)
 
-    id = Column('pk', Integer, primary_key=True,
-                server_default=sqltext("nextval('bookshelves_pk_seq'::regclass)"))
-    bookshelf = Column(Text, nullable=False, unique=True)
-    downloads = deferred(Column(Integer, nullable=False, index=True, server_default=sqltext("0")))
-    release_date = deferred(Column(Date, nullable=False, index=True,
-                          server_default=sqltext("'1970-01-01'::date")))
-    tsvec = deferred(Column(TSVECTOR, index=True))
-    
-    '''
 
 class Book(models.Model):
     book_id = models.IntegerField()
@@ -48,11 +40,21 @@ class Book(models.Model):
     subjects = models.CharField(max_length=1000, default="")
     full_text = models.TextField(default="", null=True, blank=True)
     num_downloads = models.IntegerField(default=0)
-    
     added = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now_add=True, null=True)
-    
     yaml = models.TextField(null=True, default="")
+
+
+'''
+class Cover(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, db_index=True)
+    file = models.FileField(upload_to="bookcovers/", null=True, blank=True)
+    default_cover = models.BooleanField(default=False)
+
+class External_Link(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, db_index=True)
+    url = models.URLField(max_length=500)
+    source = models.CharField(max_length=255)
 
     # using a custom save method in order to update the "updated" timestamp when specific fields are updated
     def save(self, *args, **kwargs):
@@ -125,13 +127,4 @@ class Book(models.Model):
             self._pandata=Pandata()
             self._pandata.load(self.yaml)
         return self._pandata.metadata
-
-class Cover(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, db_index=True)
-    file = models.FileField(upload_to="bookcovers/", null=True, blank=True)
-    default_cover = models.BooleanField(default=False)
-
-class External_Link(models.Model):
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, db_index=True)
-    url = models.URLField(max_length=500)
-    source = models.CharField(max_length=255)
+'''
