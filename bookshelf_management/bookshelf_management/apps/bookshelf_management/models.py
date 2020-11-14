@@ -13,6 +13,7 @@ def smart_truncate(content, length=100, suffix='...'):
 
 class Author(models.Model):
     name = models.CharField(max_length=255, default="", null=True, blank=True)
+    role = models.CharField(max_length=255, default="", null=True, blank=True)
     aliases = models.CharField(max_length=255, default="", null=True, blank=True)
     birth_year = models.IntegerField(null=True)
     death_year = models.IntegerField(null=True)
