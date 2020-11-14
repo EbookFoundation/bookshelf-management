@@ -7,6 +7,8 @@ def smart_truncate(content, length=100, suffix='...'):
         return content
     else:
         return ' '.join(content[:length+1].split(' ')[0:-1]) + suffix
+    
+    
 
 class Author(models.Model):
     name = models.CharField(max_length=255, default="", null=True, blank=True)
@@ -14,6 +16,25 @@ class Author(models.Model):
     birth_year = models.IntegerField(null=True)
     death_year = models.IntegerField(null=True)
     wikipedia_url = models.URLField(max_length=500)
+
+    '''
+    template for bookshelf
+
+    class Bookshelf(Base):
+    __tablename__ = 'bookshelves'
+    __table_args__ = (
+        CheckConstraint("bookshelf <> ''::text"),
+    )
+
+    id = Column('pk', Integer, primary_key=True,
+                server_default=sqltext("nextval('bookshelves_pk_seq'::regclass)"))
+    bookshelf = Column(Text, nullable=False, unique=True)
+    downloads = deferred(Column(Integer, nullable=False, index=True, server_default=sqltext("0")))
+    release_date = deferred(Column(Date, nullable=False, index=True,
+                          server_default=sqltext("'1970-01-01'::date")))
+    tsvec = deferred(Column(TSVECTOR, index=True))
+    
+    '''
 
 class Book(models.Model):
     book_id = models.IntegerField()

@@ -35,12 +35,14 @@ SECRET_KEY = 'zgwvzeb!oca99v&c(=lljl)y_&^33dwoqs@%)arujer_#x(#gn'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost'
+]
 
 # Application definition
 
 INSTALLED_APPS = [
-	'bookshelf_management'
+	'apps.bookshelf_management',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
