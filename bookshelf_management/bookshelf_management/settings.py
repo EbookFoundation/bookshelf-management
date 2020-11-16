@@ -33,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'zgwvzeb!oca99v&c(=lljl)y_&^33dwoqs@%)arujer_#x(#gn'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'localhost'
@@ -81,7 +81,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bookshelf_management.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -95,6 +94,8 @@ DATABASES = {
         'PORT':'5432'
     }
 }
+
+# sys.path.insert(100, '/mnt/c/users/damon/desktop/bookshelf-management/bookshelf_management/bookshelf_management/settings.py')
 
 
 # Password validation

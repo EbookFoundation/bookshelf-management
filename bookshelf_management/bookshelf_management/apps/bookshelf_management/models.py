@@ -3,32 +3,19 @@ from django.db import models
 from django.utils import timezone as tz
 import sys
 
-'''
-def smart_truncate(content, length=100, suffix='...'):
-    if len(content) <= length:
-        return content
-    else:
-        return ' '.join(content[:length+1].split(' ')[0:-1]) + suffix
-'''
 
-class Author(models.Model):
-    name = models.CharField(max_length=255, default="", null=True, blank=True)
-    role = models.CharField(max_length=255, default="", null=True, blank=True)
-    aliases = models.CharField(max_length=255, default="", null=True, blank=True)
-    birth_year = models.IntegerField(null=True)
-    death_year = models.IntegerField(null=True)
-    wikipedia_url = models.URLField(max_length=500)
-    num_downloads = models.IntegerField(default=0)
-    release_date = models.IntegerField(null=True)
 
 
 class Bookshelf(models.Model):
     bookshelf_id = models.IntegerField()
     bookshelf_name = models.CharField(max_length=255, null=False)
-    release_date = models.IntegerField(null=True)
     num_downloads = models.IntegerField(default=0)
+    release_date = models.IntegerField(null=True)
+    class Meta:
+        db_table = "bookshelves"
 
 
+'''
 class Book(models.Model):
     book_id = models.IntegerField()
     repo_name = models.CharField(max_length=255, null=True, blank=True)
@@ -45,8 +32,23 @@ class Book(models.Model):
     updated = models.DateTimeField(auto_now_add=True, null=True)
     yaml = models.TextField(null=True, default="")
 
+class Author(models.Model):
+    name = models.CharField(max_length=255, default="", null=True, blank=True)
+    role = models.CharField(max_length=255, default="", null=True, blank=True)
+    aliases = models.CharField(max_length=255, default="", null=True, blank=True)
+    birth_year = models.IntegerField(null=True)
+    death_year = models.IntegerField(null=True)
+    wikipedia_url = models.URLField(max_length=500)
+    num_downloads = models.IntegerField(default=0)
+    release_date = models.IntegerField(null=True)
 
-'''
+
+def smart_truncate(content, length=100, suffix='...'):
+    if len(content) <= length:
+        return content
+    else:
+        return ' '.join(content[:length+1].split(' ')[0:-1]) + suffix
+
 class Cover(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, db_index=True)
     file = models.FileField(upload_to="bookcovers/", null=True, blank=True)
