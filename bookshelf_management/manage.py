@@ -2,9 +2,9 @@
 
 import os
 import sys
-import bookshelf_management.settings.py
 
 def main():
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE','bookshelf_management.settings.settings_base')
     from django.core.management import execute_from_command_line
     execute_from_command_line(sys.argv)
 
@@ -13,7 +13,8 @@ if __name__ == '__main__':
 
 
 
-
+#sys.path.append("/mnt/c/Users/damon/Desktop/bookshelf-management/bookshelf_management/bookshelf_management/settings")
+#export DJANGO_SETTINGS_MODULE=bookshelf_management.settings
     ''' 
     try:
         from django.core.management import execute_from_command_line

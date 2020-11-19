@@ -74,4 +74,7 @@ fi
 if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
     hash -r
 fi
+ 
 
+#DJANGO_SETTINGS_MODULE="/mnt/c/Users/damon/Desktop/bookshelf-management/bookshelf_management/bookshelf_management/settings/settings_base.py"
+#export DJANGO_SETTINGS_MODULE
