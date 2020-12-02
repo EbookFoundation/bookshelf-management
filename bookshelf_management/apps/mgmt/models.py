@@ -1,0 +1,117 @@
+from django.db import models
+from django.utils import timezone as tz
+
+# logger = logging.getLogger(__name__)
+
+# gh_org = 'GITenberg'
+
+# def smart_truncate(content, length=100, suffix='...'):
+#     if len(content) <= length:
+#         return content
+#     else:
+#         return ' '.join(content[:length+1].split(' ')[0:-1]) + suffix
+'''
+class Author(models.Model):
+    name = models.CharField(max_length=255, default="", null=True, blank=True)
+    aliases = models.CharField(max_length=255, default="", null=True, blank=True)
+    birth_year = models.IntegerField(null=True)
+    death_year = models.IntegerField(null=True)
+    wikipedia_url = models.URLField(max_length=500)
+    class Meta: 
+        db_table = "authors"
+
+'''
+
+class Bookshelf(models.Model):
+    bookshelf = models.CharField(max_length=255, null=False, primary_key=True)
+    downloads = models.IntegerField(default=0)
+    release_date = models.DateField(null=True)
+    class Meta:
+        db_table = "bookshelves"
+
+
+class Book(models.Model):
+    copyrighted = models.IntegerField(null=True, default=0)
+    updatemode = models.IntegerField(null=True, default=0)
+    release_date = models.DateField(null=True)
+    filemask = models.CharField(max_length=240)
+    gutindex = models.TextField(primary_key=True)
+    downloads = models.IntegerField(null=True, default=0)
+    title = models.TextField(max_length=255, default="", null=True, blank=True)
+    nonfiling = models.IntegerField(default=0)
+    '''
+
+    # using a custom save method in order to update the "updated" timestamp when specific fields are updated
+    def save(self, *args, **kwargs):
+        if self.pk: # if object already exists in db
+            old_model = Book.objects.get(pk=self.pk)
+
+            # This is the list of fields that, when modified, should update the "updated" timestamp
+            fields = ["title", "language", "description", "author", "gutenberg_type", "gutenberg_bookshelf", "subjects", "full_text"]
+
+            for field in fields:
+                # If one of the fields was modified, update the timestamp
+                if getattr(old_model, field, None) != getattr(self, field, None):
+                    self.updated = tz.now()
+        super(Book, self).save(*args, **kwargs) # call the inherited save method
+
+    def __unicode__(self):
+        return self.repo_name
+
+    @property
+    def title_short(self):
+        return smart_truncate(self.title, 65)
+
+    @property
+    def subjects_str(self):
+        return self.subjects.replace(";", ", ")
+    
+    @property
+    def author_first_last(self):
+        if self.author is None:
+            return None
+        else:
+            return " ".join(self.author.name.split(", ")[::-1])
+
+    @property
+    def description_short(self):
+        return smart_truncate(self.description, 300)
+
+    @property
+    def repo_url(self):
+        return 'https://github.com/{}/{}'.format(gh_org,self.repo_name)
+
+    @property
+    def issues_url(self):
+        return 'https://github.com/{}/{}/issues'.format(gh_org,self.repo_name)
+
+    @property
+    def downloads_url(self):
+        return 'https://github.com/{}/{}/releases'.format(gh_org,self.repo_name)
+
+    @property
+    def pg_url(self):
+        return 'https://www.gutenberg.org/ebooks/{}'.format(self.book_id)
+
+    @property
+    def cover_url(self):
+        existing_covers = list(Cover.objects.filter(book=self))
+        for cover in existing_covers:
+            if cover.default_cover and cover.file and hasattr(cover.file, "url"):
+                return cover.file.url
+        #No cover is set as default, so return the first cover that has a url
+        if len(existing_covers) > 0:
+            for cover in existing_covers:
+                if cover.file and hasattr(cover.file, "url"):
+                    return cover.file.url
+        return None
+
+    _pandata=None
+    def metadata(self):
+        if not self._pandata:
+            self._pandata=Pandata()
+            self._pandata.load(self.yaml)
+        return self._pandata.metadata
+'''
+    class Meta:
+        db_table = "books"
