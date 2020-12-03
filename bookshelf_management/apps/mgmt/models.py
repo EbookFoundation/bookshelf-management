@@ -23,7 +23,8 @@ class Author(models.Model):
 '''
 
 class Bookshelf(models.Model):
-    bookshelf = models.CharField(max_length=255, null=False, primary_key=True)
+    id = models.IntegerField(db_column='pk', primary_key=True)
+    bookshelf = models.CharField(max_length=255, null=False)
     downloads = models.IntegerField(default=0)
     release_date = models.DateField(null=True)
     class Meta:
@@ -31,11 +32,12 @@ class Bookshelf(models.Model):
 
 
 class Book(models.Model):
+    id = models.IntegerField(db_column='pk', primary_key=True)
     copyrighted = models.IntegerField(null=True, default=0)
     updatemode = models.IntegerField(null=True, default=0)
     release_date = models.DateField(null=True)
     filemask = models.CharField(max_length=240)
-    gutindex = models.TextField(primary_key=True)
+    gutindex = models.TextField()
     downloads = models.IntegerField(null=True, default=0)
     title = models.TextField(max_length=255, default="", null=True, blank=True)
     nonfiling = models.IntegerField(default=0)
