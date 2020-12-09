@@ -23,16 +23,21 @@ class Author(models.Model):
 '''
 
 class Bookshelf(models.Model):
-    id = models.IntegerField(db_column='pk', primary_key=True)
+    id = models.AutoField(db_column='pk', primary_key=True)
     bookshelf = models.CharField(max_length=255, null=False)
     downloads = models.IntegerField(default=0)
     release_date = models.DateField(null=True)
     class Meta:
         db_table = "bookshelves"
+    def __str__(self):
+        return str(self.bookshelf)
+
+
+
 
 
 class Book(models.Model):
-    id = models.IntegerField(db_column='pk', primary_key=True)
+    id = models.AutoField(db_column='pk', primary_key=True)
     copyrighted = models.IntegerField(null=True, default=0)
     updatemode = models.IntegerField(null=True, default=0)
     release_date = models.DateField(null=True)
@@ -41,6 +46,26 @@ class Book(models.Model):
     downloads = models.IntegerField(null=True, default=0)
     title = models.TextField(max_length=255, default="", null=True, blank=True)
     nonfiling = models.IntegerField(default=0)
+    class Meta:
+        db_table = "books"
+    def __str__(self): 
+        return str(self.title)
+    def save(self, *args, **kwargs):
+     return
+    def delete(self, *args, **kwargs):
+     return
+
+
+
+class BookshelfToBook(models.Model):
+    fk_books = models.ForeignKey(Book, db_column='fk_books', to_field='id', on_delete=models.CASCADE,)
+    fk_bookshelves = models.ForeignKey(Bookshelf, db_column='fk_bookshelves', to_field='id', on_delete=models.CASCADE)
+    class Meta:
+        db_table = "mn_books_bookshelves"
+        unique_together = (("fk_books", "fk_bookshelves"),)
+    def __str__(self):
+        return str(self.fk_books.title) + ' in bookshelf ' + str(self.fk_bookshelves.bookshelf)
+
     '''
 
     # using a custom save method in order to update the "updated" timestamp when specific fields are updated
@@ -115,5 +140,3 @@ class Book(models.Model):
             self._pandata.load(self.yaml)
         return self._pandata.metadata
 '''
-    class Meta:
-        db_table = "books"
