@@ -15,7 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
+from bookshelf_management.apps.mgmt import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('bookshelves/<int:bookshelfId>', views.booksInBookshelf, name='detail')
 ]
+
+# class CustomAdminSite(admin.AdminSite):      
+#     def get_urls(self):        
+#         urls = super(CustomAdminSite, self).get_urls() 
+#         custom_urls = [            
+#             url('admin/bookshelves$', 
+#             self.admin_view(organization_admin.preview), name="preview"),        
+#         ]        
+#         return urls + custom_urls
