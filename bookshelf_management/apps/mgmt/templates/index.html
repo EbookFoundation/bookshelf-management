@@ -1,0 +1,23 @@
+{% extends "generic_template.html" %}
+
+{% block content %}
+  <h1>{{bookshelf}}</h1>
+  <h2>Bookshelf</h2>
+  
+    <strong>Number of Books in Bookshelf:</strong> <p>{{ total }}</p>
+
+    <h1>Book List</h1>
+    {% if books %}
+    <ul>
+      {% for book in books %}
+        <li>
+          <a href="https://www.gutenberg.org/ebooks/{{ book.id }}">{{ book.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>There are no books in the bookshelf.</p>
+    {% endif %} 
+  {% endblock %}
+  
+
