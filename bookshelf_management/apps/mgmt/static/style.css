@@ -1,0 +1,15 @@
+.out-booklist {
+  height: 10px;
+  width: 10px;
+  float: right;
+  background: red;
+  margin-right: 20%;
+}
+
+.in-booklist {
+  height: 10px;
+  width: 10px;
+  float: right;
+  background: green;
+  margin-right: 20%;
+}

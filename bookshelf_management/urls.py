@@ -17,10 +17,17 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from bookshelf_management.apps.mgmt import views
+from django.conf.urls import include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('bookshelves', views.bookshelfList, name='detail'),
     path('bookshelves/<int:bookshelfId>', views.booksInBookshelf, name='detail')
+]
+
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 # class CustomAdminSite(admin.AdminSite):      
