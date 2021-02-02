@@ -1,6 +1,6 @@
 from .models import Book, Bookshelf, BookshelfToBook
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 
@@ -12,8 +12,15 @@ from django.views import generic
 
     
 def insertBookToBookshelf(bookId, bookshelfId):
-    newEntry = BookshelfToBook.objects.create(bookId, bookshelfId)
-    newEntry.save()
+    existing = BookshelfToBook.objects.filter(fk_books=bookId, fk_bookshelves=bookshelfId)
+    if existing.count() > 0:
+        print('attempted duplicate insert')
+        return
+    book = Book.objects.get(id=bookId)
+    bookshelf = Bookshelf.objects.get(id=bookshelfId)
+    if book != None and bookshelf != None:
+        newEntry = BookshelfToBook(fk_books=book, fk_bookshelves=bookshelf)
+        newEntry.save()
 
 
 def booksInBookshelf(request, bookshelfId):
@@ -21,30 +28,29 @@ def booksInBookshelf(request, bookshelfId):
     idList = BookshelfToBook.objects.filter(fk_bookshelves=bookshelfId).values_list('fk_books', flat=True) 
     books = Book.objects.filter(id__in=idList)
 
-    if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
-        form = (request.POST)
-        print(form)
-        # check whether it's valid:
-        if form.bookid != None:
-            insertBookToBookshelf(form.bookid, bookshelfId)
-            # redirect to a new URL:
-            return render(request, 'index.html', context=context)
-
-    # if a GET (or any other method) we'll create a blank form
-    else:
-        form = NewBookForm()
-
     context = {
         'books': books,
         'total': len(books),
         'bookshelf': bookshelfName,
-        'bookshelfId': bookshelfId,
-        'form': form
+        'bookshelfId': bookshelfId
     }
 
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = (request.POST)
+        # print(form)
+        # check whether it's valid:
+        if form.get('bookid') != None:
+            insertBookToBookshelf(form.get('bookid'), bookshelfId)
+            # redirect to a new URL:
+            return redirect(request.META['HTTP_REFERER'])
 
-    return render(request, 'index.html', context=context)
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = NewBookForm()
+        context['form'] = form
+    
+    return render(request, 'bookshelf.html', context=context)
 
 
 def bookshelfList(request):

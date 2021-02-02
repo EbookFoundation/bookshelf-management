@@ -8,7 +8,6 @@
     list = {}
   }
 
-    list = { '218': true }
 
   $('.bookshelf-entry').each( function() {
     const bookId = $(this).attr('id').split('-')[1]
