@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 
 
 
-from .forms import NewBookForm
+from .forms import NewBookForm, BookSearchForm
 from django.views import generic
 
 # class BookListView(generic.ListView):
@@ -52,6 +52,37 @@ def booksInBookshelf(request, bookshelfId):
     
     return render(request, 'bookshelf.html', context=context)
 
+def searchBooks(request, bookshelfId):
+    context = {
+        'books': None,
+        'total': 0,
+        'bookshelfId': bookshelfId
+    }
+
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = (request.POST)
+        # print(form)
+        # check whether it's valid:
+        if form.get('searchTerm') != None:
+            foundBooks = getBooksMatchingTitle(form.get('searchTerm'))
+            context['books'] = foundBooks
+            context['total'] = len(foundBooks)
+            context['form'] = BookSearchForm()
+
+            # redirect to a new URL:
+            return render(request, 'search.html', context=context)
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = BookSearchForm()
+        context['form'] = form
+    
+    return render(request, 'search.html', context=context)
+
+
+def getBooksMatchingTitle(term):
+    return Book.objects.filter(title__contains=term)
 
 def bookshelfList(request):
     bookshelves = Bookshelf.objects.all()
