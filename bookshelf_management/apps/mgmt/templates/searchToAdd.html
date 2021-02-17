@@ -5,7 +5,7 @@
   <h1>Search Books</h1>  
     <strong>Number of Books found:</strong> <p>{{ total }}</p>
 
-    <form action="/books" method="post">
+    <form action="/bookshelves/{{bookshelfId}}/search" method="post">
       {% csrf_token %}
       {{ form }}
       <input type="submit" value="Search">
@@ -16,7 +16,7 @@
     <ul>
       {% for book in books %}
         <li class="bookshelf-entry" id="book-{{ book.id }}">
-          <a href="/books/{{ book.id }}">{{ book.title }}</a>
+          <a href="https://www.gutenberg.org/ebooks/{{ book.id }}">{{ book.title }}</a>
         </li>
       {% endfor %}
     </ul>

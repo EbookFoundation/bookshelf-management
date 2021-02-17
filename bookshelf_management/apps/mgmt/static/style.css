@@ -13,3 +13,7 @@
   background: green;
   margin-right: 20%;
 }
+
+.nav-item.left {
+  float: left;
+}

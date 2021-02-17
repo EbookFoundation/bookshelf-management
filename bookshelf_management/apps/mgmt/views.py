@@ -52,7 +52,21 @@ def booksInBookshelf(request, bookshelfId):
     
     return render(request, 'bookshelf.html', context=context)
 
-def searchBooks(request, bookshelfId):
+def bookshelvesOfBook(request, bookId):
+    bookName = Book.objects.get(id=bookId).title
+    idList = BookshelfToBook.objects.filter(fk_books=bookId).values_list('fk_bookshelves', flat=True) 
+    bookshelves = Bookshelf.objects.filter(id__in=idList)
+
+    context = {
+        'bookshelves': bookshelves,
+        'total': len(bookshelves),
+        'bookName': bookName,
+        'bookId': bookId
+    }
+    
+    return render(request, 'bookshelvesOfBook.html', context=context)
+
+def searchBooksToAdd(request, bookshelfId):
     context = {
         'books': None,
         'total': 0,
@@ -78,14 +92,42 @@ def searchBooks(request, bookshelfId):
         form = BookSearchForm()
         context['form'] = form
     
+    return render(request, 'searchToAdd.html', context=context)
+
+
+def searchBooks(request):
+    context = {
+        'books': None,
+        'total': 0,
+    }
+
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = (request.POST)
+        # print(form)
+        # check whether it's valid:
+        if form.get('searchTerm') != None:
+            foundBooks = getBooksMatchingTitle(form.get('searchTerm'))
+            context['books'] = foundBooks
+            context['total'] = len(foundBooks)
+            context['form'] = BookSearchForm()
+
+            # redirect to a new URL:
+            return render(request, 'search.html', context=context)
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = BookSearchForm()
+        context['form'] = form
+    
     return render(request, 'search.html', context=context)
 
 
 def getBooksMatchingTitle(term):
-    return Book.objects.filter(title__contains=term)
+    return Book.objects.filter(title__contains=term).order_by('title')
 
 def bookshelfList(request):
-    bookshelves = Bookshelf.objects.all()
+    bookshelves = Bookshelf.objects.all().order_by('bookshelf')
 
     context = {
         'bookshelves': bookshelves,

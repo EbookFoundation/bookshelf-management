@@ -23,7 +23,9 @@ from django.conf.urls import include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('bookshelves', views.bookshelfList, name='detail'),
-    path('bookshelves/<int:bookshelfId>/search', views.searchBooks, name='detail'),
+    path('books', views.searchBooks, name='detail'),
+    path('books/<int:bookId>', views.bookshelvesOfBook, name='detail'),
+    path('bookshelves/<int:bookshelfId>/search', views.searchBooksToAdd, name='detail'),
     path('bookshelves/<int:bookshelfId>', views.booksInBookshelf, name='detail')
 ]
 
