@@ -1,0 +1,13 @@
+{% extends "generic_template.html" %}
+
+{% block content %}
+
+<form action="/login" method="post">
+    {% csrf_token %}
+    {{ form }}
+
+    <input type="submit" value="Login">
+</form>
+<p>{{message}}</p>
+{% endblock %}
+  

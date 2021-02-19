@@ -14,6 +14,13 @@ class BookSearchForm(forms.Form):
         return str(searchTerm) != ''
            
 
+class LoginForm(forms.Form):
+    username = forms.CharField(label='Username', max_length=64)
+    password = forms.CharField(label='Password', max_length=64)
+    def is_valid():
+        return str(username) != '' and str(password) != ''
+           
+
 
 
 

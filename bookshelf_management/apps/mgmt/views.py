@@ -1,10 +1,11 @@
 from .models import Book, Bookshelf, BookshelfToBook
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate
 
 
 
-from .forms import NewBookForm, BookSearchForm
+from .forms import NewBookForm, BookSearchForm, LoginForm
 from django.views import generic
 
 # class BookListView(generic.ListView):
@@ -154,3 +155,31 @@ def get_name(request):
         form = NewBookForm()
 
     return render(request, 'name.html', {'form': form})
+
+def login(request):
+    context = {
+        "message": ""
+    }
+    if request.method == 'POST':
+        form = (request.POST)
+        # print(form)
+        # check whether it's valid:
+        if form.get('username') != None and form.get('password') != None:
+            user = authenticate(username=form.get('username'), password=form.get('password'))
+            print(user)
+            if user is not None:
+                # A backend authenticated the credentials
+                return redirect("/bookshelves")
+            else:
+                # No backend authenticated the credentials
+                context["message"] = 'Invalid Login'
+                context['form'] = LoginForm()
+                return render(request, 'login.html', context=context)
+            # redirect to a new URL:
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = LoginForm()
+        context['form'] = form
+    
+    return render(request, 'login.html', context=context)
