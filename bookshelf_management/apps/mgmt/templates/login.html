@@ -2,12 +2,12 @@
 
 {% block content %}
 
-<form action="/login" method="post">
+<form class="login-form" action="/login" method="post">
     {% csrf_token %}
     {{ form }}
 
     <input type="submit" value="Login">
 </form>
-<p>{{message}}</p>
+<p class="help-msg">{{message}}</p>
 {% endblock %}
   
