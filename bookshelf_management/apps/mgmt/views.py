@@ -1,7 +1,7 @@
 from .models import Book, Bookshelf, BookshelfToBook
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 
 
 
@@ -156,7 +156,7 @@ def get_name(request):
 
     return render(request, 'name.html', {'form': form})
 
-def login(request):
+def loginView(request):
     context = {
         "message": ""
     }
@@ -169,6 +169,7 @@ def login(request):
             print(user)
             if user is not None:
                 # A backend authenticated the credentials
+                login(request, user)
                 return redirect("/bookshelves")
             else:
                 # No backend authenticated the credentials
@@ -183,3 +184,7 @@ def login(request):
         context['form'] = form
     
     return render(request, 'login.html', context=context)
+
+def logoutView(request):
+    logout(request)
+    return redirect("/bookshelves")

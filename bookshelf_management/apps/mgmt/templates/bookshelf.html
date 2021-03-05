@@ -7,12 +7,15 @@
   
     <strong class="heading-info">Number of Books in Bookshelf:</strong> <p>{{ total }}</p>
 
-    <form class="add-form" action="/bookshelves/{{bookshelfId}}" method="post">
+  {% if user.is_authenticated %}
+  <form class="add-form" action="/bookshelves/{{bookshelfId}}" method="post">
       {% csrf_token %}
       {{ form }}
       <input type="submit" value="Add Book">
   </form>
   <p class="form-help">Or search for a book to add <a href="/bookshelves/{{bookshelfId}}/search">here</a></p>
+  {% endif %} 
+
 
     <h1 class="secondary-heading">Book List</h1>
     {% if books %}
