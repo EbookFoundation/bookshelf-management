@@ -21,4 +21,13 @@
     }
   })
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+
+  if(urlParams.has('addId')){
+    // console.log(urlParams.get('addId'))
+    $('#id_bookid').val(urlParams.get('addId'))
+
+  }
+
 })(jQuery)

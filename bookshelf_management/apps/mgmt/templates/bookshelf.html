@@ -11,7 +11,7 @@
   <form class="add-form" action="/bookshelves/{{bookshelfId}}" method="post">
       {% csrf_token %}
       {{ form }}
-      <input type="submit" value="Add Book">
+      <input type="submit" id="add-book-btn" value="Add Book">
   </form>
   <p class="form-help">Or search for a book to add <a href="/bookshelves/{{bookshelfId}}/search">here</a></p>
   {% endif %} 

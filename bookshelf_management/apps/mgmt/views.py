@@ -86,7 +86,7 @@ def searchBooksToAdd(request, bookshelfId):
             context['form'] = BookSearchForm()
 
             # redirect to a new URL:
-            return render(request, 'search.html', context=context)
+            return render(request, 'searchToAdd.html', context=context)
 
     # if a GET (or any other method) we'll create a blank form
     else:
