@@ -21,6 +21,8 @@ class Author(models.Model):
         db_table = "authors"
 
 '''
+
+'''
 class Bookshelf(models.Model):
     id = models.AutoField(db_column='pk', primary_key=True)
     bookshelf = models.CharField(max_length=255, null=False)
@@ -55,7 +57,6 @@ class Book(models.Model):
      return
 
 
-
 class BookshelfToBook(models.Model):
     fk_books = models.ForeignKey(Book, db_column='fk_books', to_field='id', on_delete=models.CASCADE,)
     fk_bookshelves = models.ForeignKey(Bookshelf, db_column='fk_bookshelves', to_field='id', on_delete=models.CASCADE)
@@ -66,6 +67,8 @@ class BookshelfToBook(models.Model):
         return str(self.fk_books.title) + ' in bookshelf ' + str(self.fk_bookshelves.bookshelf)
 
 '''
+
+    '''
 
     # using a custom save method in order to update the "updated" timestamp when specific fields are updated
     def save(self, *args, **kwargs):

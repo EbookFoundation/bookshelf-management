@@ -26,7 +26,7 @@ SECRET_KEY = '&@xb%y*a-v56sap7_5&+kdtsdck68h-9&r6*u#3!a2ey@+i76$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ["localhost", '3.82.162.234']
 
 
 # Application definition
@@ -79,9 +79,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'gutenberg',
-        'USER': 'adamundus',
-        'PASSWORD': 'database',
-        'HOST': '127.0.0.1',
+        'USER': 'postgres',
+        'PASSWORD': 'booksrcool',
+        'HOST': 'gutenberg-db.cd80uhnba3in.us-east-1.rds.amazonaws.com',
         'PORT': '5432',
     }
 }
