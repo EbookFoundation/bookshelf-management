@@ -15,7 +15,7 @@ from django.views import generic
 def insertBookToBookshelf(bookId, bookshelfId):
     existing = BookshelfToBook.objects.filter(fk_books=bookId, fk_bookshelves=bookshelfId)
     if existing.count() > 0:
-        print('attempted duplicate insert')
+        # print('attempted duplicate insert')
         return
     book = Book.objects.get(id=bookId)
     bookshelf = Bookshelf.objects.get(id=bookshelfId)
@@ -166,7 +166,7 @@ def loginView(request):
         # check whether it's valid:
         if form.get('username') != None and form.get('password') != None:
             user = authenticate(username=form.get('username'), password=form.get('password'))
-            print(user)
+            # print(user)
             if user is not None:
                 # A backend authenticated the credentials
                 login(request, user)
