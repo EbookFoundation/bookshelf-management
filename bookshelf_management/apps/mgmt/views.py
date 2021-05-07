@@ -27,7 +27,7 @@ def insertBookToBookshelf(bookId, bookshelfId):
 def booksInBookshelf(request, bookshelfId):
     bookshelfName = Bookshelf.objects.get(id=bookshelfId).bookshelf
     idList = BookshelfToBook.objects.filter(fk_bookshelves=bookshelfId).values_list('fk_books', flat=True) 
-    books = Book.objects.filter(id__in=idList).order_by('bookshelf')
+    books = Book.objects.filter(id__in=idList).order_by('title')
 
     context = {
         'books': books,
