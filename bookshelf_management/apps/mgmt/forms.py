@@ -3,7 +3,7 @@ from django import forms
 from .models import Book
 
 class NewBookForm(forms.Form):
-    bookid = forms.CharField(label='Book ID', max_length=12)
+    bookid = forms.IntegerField(label='Book ID')
     def is_valid():
         return Book.objects.get(self.bookid) != None
 
