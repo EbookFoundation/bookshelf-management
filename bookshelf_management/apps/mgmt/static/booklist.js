@@ -32,7 +32,7 @@
 
   if(urlParams.has('addTitle')){
     // console.log(urlParams.get('addId'))
-    $('#add-title').val(urlParams.get('addTitle'))
+    $('#add-title').html('Adding book: ' + urlParams.get('addTitle'))
 
   }
 
