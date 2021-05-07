@@ -30,4 +30,10 @@
 
   }
 
+  if(urlParams.has('addTitle')){
+    // console.log(urlParams.get('addId'))
+    $('#add-title').val(urlParams.get('addTitle'))
+
+  }
+
 })(jQuery)

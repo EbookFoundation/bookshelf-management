@@ -27,7 +27,7 @@ def insertBookToBookshelf(bookId, bookshelfId):
 def booksInBookshelf(request, bookshelfId):
     bookshelfName = Bookshelf.objects.get(id=bookshelfId).bookshelf
     idList = BookshelfToBook.objects.filter(fk_bookshelves=bookshelfId).values_list('fk_books', flat=True) 
-    books = Book.objects.filter(id__in=idList)
+    books = Book.objects.filter(id__in=idList).order_by('bookshelf')
 
     context = {
         'books': books,
@@ -125,7 +125,7 @@ def searchBooks(request):
 
 
 def getBooksMatchingTitle(term):
-    return Book.objects.filter(title__contains=term).order_by('title')
+    return Book.objects.filter(title__icontains=term).order_by('title')
 
 def bookshelfList(request):
     bookshelves = Bookshelf.objects.all().order_by('bookshelf')

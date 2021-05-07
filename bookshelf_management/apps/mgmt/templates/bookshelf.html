@@ -8,6 +8,7 @@
     <strong class="heading-info">Number of Books in Bookshelf:</strong> <p>{{ total }}</p>
 
   {% if user.is_authenticated %}
+  <p id="add-title"></p>
   <form class="add-form" action="/bookshelves/{{bookshelfId}}" method="post">
       {% csrf_token %}
       {{ form }}

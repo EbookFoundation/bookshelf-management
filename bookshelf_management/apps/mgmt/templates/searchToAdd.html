@@ -16,7 +16,7 @@
     <ul>
       {% for book in books %}
         <li class="bookshelf" id="book-{{ book.id }}">
-          <a href="/bookshelves/{{bookshelfId}}?addId={{ book.id }}">{{ book.title }}</a>
+          <a href="/bookshelves/{{bookshelfId}}?addId={{ book.id }}&addTitle={{ book.title }}">{{ book.title }}</a> <p> [ <a href="https://www.gutenberg.org/ebooks/{{ book.id }}">click here to view on gutenberg site</a> ]</p>
         </li>
       {% endfor %}
     </ul>
