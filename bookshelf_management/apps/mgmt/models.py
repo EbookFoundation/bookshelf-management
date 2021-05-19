@@ -21,15 +21,6 @@ class Author(models.Model):
         db_table = "authors"
 
 '''
-class Bookshelf(models.Model):
-    id = models.AutoField(db_column='pk', primary_key=True)
-    bookshelf = models.CharField(max_length=255, null=False)
-    downloads = models.IntegerField(default=0)
-    release_date = models.DateField(null=True)
-    class Meta:
-        db_table = "bookshelves"
-    def __str__(self):
-        return str(self.bookshelf)
 
 
 
@@ -55,6 +46,16 @@ class Book(models.Model):
      return
 
 
+class Bookshelf(models.Model):
+    id = models.AutoField(db_column='pk', primary_key=True)
+    bookshelf = models.CharField(max_length=255, null=False)
+    downloads = models.IntegerField(default=0)
+    release_date = models.DateField(null=True)
+    books = models.ManyToManyField(Book, through="BookshelfToBook")
+    class Meta:
+        db_table = "bookshelves"
+    def __str__(self):
+        return str(self.bookshelf)
 
 class BookshelfToBook(models.Model):
     fk_books = models.ForeignKey(Book, db_column='fk_books', to_field='id', on_delete=models.CASCADE,)
